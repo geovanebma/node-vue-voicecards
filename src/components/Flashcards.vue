@@ -1,135 +1,163 @@
-<!-- <template>
-  <div v-for="(value, key) in dados">
-    <div v-if="idioma.toLowerCase() == key.toLowerCase()" v-for="(v, k) in value" :key="key">
-      <div :k="k"></div>
-    </div>
-  </div>
-</template> -->
 <template>
   <div>
-    <div v-for="(categories, language) in dados" :key="language">
-      <h2 class="language_desc">{{ language }}</h2>
-      <div v-for="(topics, category) in categories" :key="category">
-        <h1 class="category_desc" onclick="">{{ category }}</h1>
-        <div class="topic_desc" v-for="(contents, topic, cont) in topics" :key="topic">
-          <h4 class="category_desc">{{ topic }}</h4>
-          <div class="flashcards-container">
-            <div v-for="(content, index) in dados[language][category][topic]" :key="index" class="flashcard" :class="(actual_index == index && actual_cont == cont)?'show_card':'hide_card'" :id="'card'+cont+''+index" @click="flipCard(index)">
-              <div :class="['card', { flipped: flippedCards.includes(index) }]">
-                <div class="front">
-                  <p>{{ content.text }}</p>
-                  <b-icon class="play_icon" icon="play-circle-fill" title="Play" @click.stop="falar(content.text)"></b-icon>
-                </div>
-                <div class="back">
-                  <p class="lowlight">{{ content.text }}</p>
-                  <p class="highlight">{{ content.traduction }}</p>
-                  <div class="buttons">
-                    <button class="btn_card" @click.stop="handleButtonClick('easy', index, cont, dados[language][category][topic].length)">Easy</button>
-                    <button class="btn_card" @click.stop="handleButtonClick('good', index, cont, dados[language][category][topic].length)">Good</button>
-                    <button class="btn_card" @click.stop="handleButtonClick('difficult', index, cont, dados[language][category][topic].length)">Difficult</button>
-                    <button class="btn_card" @click.stop="handleButtonClick('dontRemember', index, cont, dados[language][category][topic].length)">I don't remember</button>
-                  </div>
-                </div>
-              </div>
+    <a href="/" class="vh_button">
+      <input type="button" class="btn btn-warning" value="Voltar para a página inicial">
+    </a>
+    <h1 class="category_desc2 vh_title" onclick="">{{ dados.name }}</h1>
+    <div v-if="dados" class=" vh_body_div">
+      <div v-for="(content, index) in dados.list" :key="index" class="flashcard" :class="(actual_index == index)?'show_card':'hide_card'" :id="'card'+dados.code+''+index" @click="flipCard(index)">
+        <label for="">{{ index+" of "+(dados.list.length-1) }}</label>
+        <div :class="['card', { flipped: flippedCards.includes(index) }]">
+          <!-- <label v-if="flippedCards.includes(index)" class="top_span">Front</label>
+          <label v-else class="top_span">Back</label> -->
+          <div class="front">
+            <p>{{ content.text }}</p>
+            <b-icon class="play_icon" :id="'play_button'+index" ref="play_button" :class="playIconClass" :icon="playIcon" :title="playTitle" @click.stop="toggleSpeech(content.text)"></b-icon>
+          </div>
+          <div class="back">
+            <p class="lowlight">{{ content.text }}</p>
+            <p class="highlight">{{ content.traduction }}</p>
+            <div class="buttons">
+              <button class="btn_card" @click.stop="handleButtonClick('easy', index, dados.list.length, content.status.easy)">Easy</button>
+              <button class="btn_card" @click.stop="handleButtonClick('medium', index, dados.list.length, content.status.medium)">Good</button>
+              <button class="btn_card" @click.stop="handleButtonClick('hard', index, dados.list.length, content.status.hard)">Difficult</button>
+              <button class="btn_card" @click.stop="handleButtonClick('dontRemember', index, dados.list.length, '')">I don't remember</button>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div v-if="showPopup" class="popup-alert">
+      <div class="popup-content">
+        <h3>Parabéns!</h3>
+        <p>Todos os flashcards foram terminados com sucesso!</p>
+        <p>({{count_easy}}) Fáceis</p>
+        <p>({{count_medium}}) Médios</p>
+        <p>({{count_hard}}) Difíceis</p>
+        <button @click="closePopup">Fechar</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { database, ref, update } from "../../src/firebase";
+
 export default {
   data() {
     return {
-      dados: {
-        "English": {
-          "Get an international job": {
-            "How to write a good resume?": [
-              {
-                "text": "Your resume must clearly, concisely and strategically present your qualifications to get a recruiter interested in meeting you.",
-                "traduction": "Seu currículo deve apresentar suas qualificações de forma clara, concisa e estratégica para que um recrutador se interesse em conhecê-lo."
-              },
-              {
-                "text": "It should convey your skills, work experience and assets.",
-                "traduction": "Deve transmitir suas habilidades, experiência profissional e ativos."
-              },
-              {
-                "text": "The resume is used to describe what you can accomplish professionally in a manner that also illustrates what you can do for an employer.",
-                "traduction": "O currículo é usado para descrever o que você pode realizar profissionalmente, de uma maneira que também ilustra o que você pode fazer por um empregador."
-              },
-              {
-                "text": "Job opportunities can arise unexpectedly.",
-                "traduction": "As oportunidades de emprego podem surgir inesperadamente."
-              },
-              {
-                "text": "An updated modern resume is the key to a successful job search.",
-                "traduction": "Um currículo moderno e atualizado é a chave para uma busca de emprego bem-sucedida."
-              }
-            ],
-            "What is a cover letter?": [
-              {
-                "text": "A letter of application also known as a cover letter is a document sent with your resume to provide additional information about your skills and experience to an employer.",
-                "traduction": "Uma carta de candidatura, também conhecida como carta de apresentação, é um documento enviado com seu currículo para fornecer informações adicionais sobre suas habilidades e experiência a um empregador."
-              },
-              {
-                "text": "The letter of application is intended to provide detailed information on why you are a qualified candidate for the job.",
-                "traduction": "A carta de candidatura tem como objetivo fornecer informações detalhadas sobre por que você é um candidato qualificado para o cargo."
-              },
-              {
-                "text": "Effective application letters explain the reasons for your interest in the specific organization and identify your most relevant skills.",
-                "traduction": "Cartas de candidatura eficazes explicam os motivos do seu interesse na organização específica e identificam suas habilidades mais relevantes."
-              },
-              {
-                "text": "Your cover letter should let the employer know what position you are applying for what makes you a strong candidate.",
-                "traduction": "Sua carta de apresentação deve informar ao empregador para qual posição você está se candidatando, o que o torna um candidato forte."
-              },
-              {
-                "text": "Why they should select you for an interview and how you will follow up?",
-                "traduction": "Por que eles deveriam selecioná-lo para uma entrevista e como você fará o acompanhamento?"
-              }
-            ],
-            "What is a portfolio?": [
-              {
-                "text": "A portfolio is a tangible evidence that proves you can work with programming languages.",
-                "traduction": "Um portfólio é uma evidência tangível que prova que você pode trabalhar com linguagens de programação."
-              },
-              {
-                "text": "Helps employers to know what skills you really have and to know you better.",
-                "traduction": "Ajuda os empregadores a saber quais habilidades você realmente possui e a conhecê-lo melhor."
-              },
-              {
-                "text": "Shows your personality your interests and who you actually are.",
-                "traduction": "Mostrando sua personalidade, seus interesses e quem você realmente é."
-              },
-              {
-                "text": "Shows that you can complete tasks.",
-                "traduction": "Mostra que você pode concluir tarefas."
-              },
-              {
-                "text": "You can start a project and finish it.",
-                "traduction": "você pode iniciar um projeto e terminá-lo."
-              }
-            ]
-          }
-        }
-      },
       flippedCards: [],
-      actual_index:0,
-      actual_cont:0,
-      utterance:new SpeechSynthesisUtterance(),
-      voices:null
+      all_five: [],
+      actual_index: 0,
+      count_easy: 0,
+      count_medium: 0,
+      count_hard: 0,
+      reviewed: false,
+      utterance: null,
+      default_voice: null,
+      isPlaying: false,
+      voicesLoaded: false,
+      showPopup: false
     };
   },
   name: 'Flashcards',
   props: {
-    
+    dados: {
+      type: Object,
+      required: true,
+      default: function() {
+        const storedData = localStorage.getItem('dados');
+        return storedData ? JSON.parse(storedData) : {};
+      }
+    },
+    chave: {
+      type: Number,
+      required: true
+    },
+    campo: {
+      type: String,
+      required: true
+    },
+    cont: {
+      type: Number,
+      required: true
+    },
+    c: {
+      type: Number,
+      required: true
+    }
   },
-  mounted:function(){
-    this.voices = window.speechSynthesis.getVoices()
+  computed: {
+    playIcon() {
+      return this.isPlaying ? 'pause-circle-fill' : 'play-circle-fill';
+    },
+    playTitle() {
+      return this.isPlaying ? 'Pause' : 'Play';
+    },
+    playIconClass() {
+      return this.isPlaying ? 'pause_icon' : 'play_icon';
+    }
   },
-  methods:{
+  mounted() {
+    if(this.dados){
+      localStorage.setItem('dados', JSON.stringify(this.dados));
+    }
+
+    this.loadVoices();
+    if (typeof window.speechSynthesis.onvoiceschanged !== 'undefined') {
+      window.speechSynthesis.onvoiceschanged = this.loadVoices;
+    }
+  },
+  methods: {
+    toggleSpeech(text) {
+      if (this.isPlaying) {
+        this.pauseSpeech();
+      } else {
+        this.speakText(text);
+      }
+    },
+    speakText(text) {
+      if (!this.utterance) {
+        this.utterance = new SpeechSynthesisUtterance('Toodle pip');
+        this.utterance.lang='en-US';
+
+        this.utterance.onend = () => {
+          this.isPlaying = false;
+        };
+      }
+
+      this.utterance.text = text;
+      this.default_voice = this.voices.find(voice => voice.lang.startsWith('en-US')); // Prefer US English
+      console.log(this.default_voice)
+
+      if (this.voicesLoaded) {
+        this.utterance.voice = this.default_voice;
+        if (!this.utterance.voice) {
+          console.warn("Voice not found, using default voice");
+        }
+      } else {
+        console.warn("Voices not loaded yet");
+      }
+
+      this.isPlaying = true;
+      window.speechSynthesis.speak(this.utterance);
+    },
+    pauseSpeech() {
+      window.speechSynthesis.pause();
+      this.isPlaying = false;
+    },
+    resumeSpeech() {
+      window.speechSynthesis.resume();
+      this.isPlaying = true;
+    },
+    stopSpeech() {
+      window.speechSynthesis.cancel();
+      this.isPlaying = false;
+    },
+    loadVoices() {
+      this.voices = window.speechSynthesis.getVoices();
+      this.voicesLoaded = true;
+    },
     flipCard(index) {
       if (this.flippedCards.includes(index)) {
         this.flippedCards = this.flippedCards.filter(i => i !== index);
@@ -137,36 +165,74 @@ export default {
         this.flippedCards.push(index);
       }
     },
-    handleButtonClick(action, index, cont, max) {
-      if(index+1 != max){
-        this.actual_index = index+1
-      }
-    },
-    setTextmessage(text, name){
-      this.utterance.text = text
-      
-      if(name){
-        this.setVoice(name)
-      }
-    },
-    setVoice(){
-      this.utterance.voice = "Google US English";
-    },
-    speakText(){
-      this.utterance.voice = this.voices[3];
-      window.speechSynthesis.speak(this.utterance);
-    },
-    pauseText(){
-      speechSynthesis.pause(this.utterance)
-    },
-    cancelText(){
-      speechSynthesis.cancel(this.utterance)
-    },
-    falar(text){
-      this.setTextmessage(text)
-      this.speakText()
-    }
-  }
-}
+    handleButtonClick(action, index, max, value) {
+      value = value+1;
 
+      
+      if (index + 1 != max) {
+        this.all_five.push(value)
+        this.actual_index = index + 1;
+
+        if(action == "easy"){
+          this.count_easy = this.count_easy+1;
+        }
+
+        if(action == "medium"){
+          this.count_medium = this.count_medium+1;
+        }
+
+        if(action == "hard"){
+          this.count_hard = this.count_hard+1;
+        }
+
+        // setTimeout(() => {
+        //   console.log(document.getElementById("play_button" + (index+1)));
+        // }, 1000);
+      }else{
+        for (let index = 0; index < this.all_five.length; index++) {
+          const element = this.all_five[index];
+          
+          if(element != 5){
+            break;
+          }else{
+            if(index == this.all_five.length-1){
+              this.reviewed = true
+            }
+          }
+        }
+
+        this.showCompletionPopup()
+      }
+
+      this.saveToFirebase(action, value)
+    },
+    saveToFirebase: async function(action, value) {
+      const today = new Date();
+
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0'); // Mês começa em 0
+      const day = String(today.getDate()).padStart(2, '0');
+
+      const formattedDate = `${year}-${month}-${day}`;
+
+
+      const updates = {}; // Create an object to store the updates
+      updates[`logins/0/languages/${this.campo}/${this.cont}/topicos/${this.chave}/list/${this.c}/status/${action}`] = value;
+      updates[`logins/0/languages/${this.campo}/${this.cont}/topicos/${this.chave}/list/${this.c}/status/last_reviewed`] = formattedDate;
+      updates[`logins/0/languages/${this.campo}/${this.cont}/topicos/${this.chave}/reviewed`] = this.reviewed;
+      
+      // Update the data in the database
+      await update(ref(database), updates);
+
+      console.log('Data updated successfully!', updates);
+    },
+    showCompletionPopup() {
+      this.showPopup = true;
+    },
+    closePopup() {
+      this.showPopup = false;
+      this.$router.push('/');
+    },
+  }
+};
 </script>

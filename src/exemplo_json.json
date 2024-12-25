@@ -1,0 +1,154 @@
+{
+  "logins": {
+    "0":{
+      "email": "giclesb7@gmail.com",
+      "languages": {
+        "English": [
+          {
+            "categoria": "Get an international job",
+            "topicos": [
+              {
+                "code": "0",
+                "list": [
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "Your resume must clearly, concisely and strategically present your qualifications to get a recruiter interested in meeting you.",
+                    "traduction": "Seu currículo deve apresentar suas qualificações de forma clara, concisa e estratégica para que um recrutador se interesse em conhecê-lo."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "It should convey your skills, work experience and assets.",
+                    "traduction": "Deve transmitir suas habilidades, experiência profissional e ativos."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "The resume is used to describe what you can accomplish professionally in a manner that also illustrates what you can do for an employer.",
+                    "traduction": "O currículo é usado para descrever o que você pode realizar profissionalmente, de uma maneira que também ilustra o que você pode fazer por um empregador."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "Job opportunities can arise unexpectedly.",
+                    "traduction": "As oportunidades de emprego podem surgir inesperadamente."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "An updated modern resume is the key to a successful job search.",
+                    "traduction": "Um currículo moderno e atualizado é a chave para uma busca de emprego bem-sucedida."
+                  }
+                ],
+                "name": "How to write a good resume?"
+              },
+              {
+                "code": "1",
+                "list": [
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "A letter of application also known as a cover letter is a document sent with your resume to provide additional information about your skills and experience to an employer.",
+                    "traduction": "Uma carta de candidatura, também conhecida como carta de apresentação, é um documento enviado com seu currículo para fornecer informações adicionais sobre suas habilidades e experiência a um empregador."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "The letter of application is intended to provide detailed information on why you are a qualified candidate for the job.",
+                    "traduction": "A carta de candidatura tem como objetivo fornecer informações detalhadas sobre por que você é um candidato qualificado para o cargo."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "Effective application letters explain the reasons for your interest in the specific organization and identify your most relevant skills.",
+                    "traduction": "Cartas de candidatura eficazes explicam os motivos do seu interesse na organização específica e identificam suas habilidades mais relevantes."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "Your cover letter should let the employer know what position you are applying for what makes you a strong candidate.",
+                    "traduction": "Sua carta de apresentação deve informar ao empregador para qual posição você está se candidatando, o que o torna um candidato forte."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "Why they should select you for an interview and how you will follow up?",
+                    "traduction": "Por que eles deveriam selecioná-lo para uma entrevista e como você fará o acompanhamento?"
+                  }
+                ],
+                "name": "How to write a good cover letter"
+              },
+              {
+                "code": "2",
+                "list": [
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "A portfolio is a tangible evidence that proves you can work with programming languages.",
+                    "traduction": "Um portfólio é uma evidência tangível que prova que você pode trabalhar com linguagens de programação."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "Helps employers to know what skills you really have and to know you better.",
+                    "traduction": "Ajuda os empregadores a saber quais habilidades você realmente possui e a conhecê-lo melhor."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "Shows your personality your interests and who you actually are.",
+                    "traduction": "Mostrando sua personalidade, seus interesses e quem você realmente é."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "Shows that you can complete tasks.",
+                    "traduction": "Mostra que você pode concluir tarefas."
+                  },
+                  {
+                    "status": {
+                      "difficulty": "hard",
+                      "last_reviewed": "2024-07-11"
+                    },
+                    "text": "You can start a project and finish it.",
+                    "traduction": "você pode iniciar um projeto e terminá-lo."
+                  }
+                ],
+                "name": "What is a portfolio?"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
