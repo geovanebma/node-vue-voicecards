@@ -345,13 +345,11 @@ nav{
 .highlight {
   font-weight: bold;
   color: #FFF;
-  font-size: 2vw !important;
 }
 
 .lowlight {
   font-weight: bold;
   color: #d2d2d2;
-  font-size: 1.5vw !important;
 }
 
 .btn_card{
@@ -407,17 +405,33 @@ nav{
 
 /* Media */
 @media (min-width: 0px) {
-
+  .front p, .back p{
+    text-align: left !important;
+    margin: 10px;
+    font-size: 6vw;
+  }
 }
 
 @media (min-width: 576px) {
-
+  .front p, .back p{
+    text-align: left !important;
+    margin: 10px;
+    font-size: 4vw;
+  }
 }
 
 @media (min-width: 768px) {
-
+  .front p, .back p{
+    text-align: left !important;
+    margin: 10px;
+    font-size: 3vw;
+  }
 }
 
 @media (min-width: 992px) {
-
+  .front p, .back p{
+    text-align: left !important;
+    margin: 10px;
+    font-size: 3vw;
+  }
 }

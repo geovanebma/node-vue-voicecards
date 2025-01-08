@@ -8,8 +8,6 @@
       <div v-for="(content, index) in dados.list" :key="index" class="flashcard" :class="(actual_index == index)?'show_card':'hide_card'" :id="'card'+dados.code+''+index" @click="flipCard(index)">
         <label for="">{{ index+" of "+(dados.list.length-1) }}</label>
         <div :class="['card', { flipped: flippedCards.includes(index) }]">
-          <!-- <label v-if="flippedCards.includes(index)" class="top_span">Front</label>
-          <label v-else class="top_span">Back</label> -->
           <div class="front">
             <p>{{ content.text }}</p>
             <b-icon class="play_icon" :id="'play_button'+index" ref="play_button" :class="playIconClass" :icon="playIcon" :title="playTitle" @click.stop="toggleSpeech(content.text)"></b-icon>
@@ -128,7 +126,6 @@ export default {
 
       this.utterance.text = text;
       this.default_voice = this.voices.find(voice => voice.lang.startsWith('en-US')); // Prefer US English
-      console.log(this.default_voice)
 
       if (this.voicesLoaded) {
         this.utterance.voice = this.default_voice;
@@ -168,7 +165,6 @@ export default {
     handleButtonClick(action, index, max, value) {
       value = value+1;
 
-      
       if (index + 1 != max) {
         this.all_five.push(value)
         this.actual_index = index + 1;
@@ -185,9 +181,26 @@ export default {
           this.count_hard = this.count_hard+1;
         }
 
+        console.log(this.$refs)
+        
+        this.$nextTick(() => {
+          const buttonRef = this.$refs[`play_button`][index+1];
+
+          if (buttonRef && buttonRef.$el) {
+            buttonRef.$el.click();
+          } else {
+            console.error(`Botão com ref "play_button${index+1}" não encontrado.`);
+          }
+        });
         // setTimeout(() => {
-        //   console.log(document.getElementById("play_button" + (index+1)));
+        //   if (buttonRef) {
+        //     buttonRef.$el.click(); // Dispara o clique programaticamente
+        //   } else {
+        //     console.error(`Botão com ref "play_button${index+1}" não encontrado.`);
+        //   }
         // }, 1000);
+        
+        // console.dir(document.getElementById("play_button" + (index+1)).click())
       }else{
         for (let index = 0; index < this.all_five.length; index++) {
           const element = this.all_five[index];
@@ -223,8 +236,6 @@ export default {
       
       // Update the data in the database
       await update(ref(database), updates);
-
-      console.log('Data updated successfully!', updates);
     },
     showCompletionPopup() {
       this.showPopup = true;
